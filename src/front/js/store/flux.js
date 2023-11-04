@@ -1,6 +1,7 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
+			token: "",
 			message: null,
 			demo: [
 				{
@@ -21,6 +22,41 @@ const getState = ({ getStore, getActions, setStore }) => {
 				getActions().changeColor(0, "green");
 			},
 
+			
+
+			login: async (email, password) => {
+				const options = {
+				  method: 'POST',
+				  headers: {
+					"Content-Type": "application/json" 
+				  },
+				  body: JSON.stringify({
+					"email": email, 
+					"password": password,
+				  })
+				};
+			  
+				try {
+				  const resp = await fetch('https://orange-fortnight-xj7w7wp947536gvx-3001.app.github.dev/api/token', options);
+			  
+				  if (resp.ok) { 
+					const data = await resp.json();
+					sessionStorage.setItem("token", data.access_token);
+					setStore({ token: data.access_token });
+					return true;
+				  } else {
+					alert("Invalid Login Credentials");
+					return false;
+				  }
+				} catch (err) {
+				  console.log("THE ERROR: " + err);
+				  return false; 
+				}
+			  },
+
+
+
+
 			getMessage: async () => {
 				try{
 					// fetching data from the backend
@@ -33,20 +69,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.log("Error loading message from backend", error)
 				}
 			},
-			changeColor: (index, color) => {
-				//get the store
-				const store = getStore();
-
-				//we have to loop the entire demo array to look for the respective index
-				//and change its color
-				const demo = store.demo.map((elm, i) => {
-					if (i === index) elm.background = color;
-					return elm;
-				});
-
-				//reset the global store
-				setStore({ demo: demo });
-			}
+			
 		}
 	};
 };

@@ -1,17 +1,22 @@
 import React, { useContext } from "react";
 import { Context } from "../store/appContext";
 import rigoImageUrl from "../../img/rigo-baby.jpg";
+import { Link } from "react-router-dom";
 import "../../styles/home.css";
 import { Login } from "./login";
 
 export const Home = () => {
 	const { store, actions } = useContext(Context);
-
+	const token = sessionStorage.getItem("token");
 	return (
 		<div className="text-center mt-5">
-			<link to="/login">
-				<button className="btn" >  Login</button>
-			</link>
+			{token && token !== "" && token !== undefined ? (
+				<div className="text-center">
+					<h1 className="display-1"> You are logged in </h1>
+					<h1 className="display-1">You are a boss</h1>
+					</div>
+			) : (
+				<div>
 			<h1>Hello Rigo!!</h1>
 			<p>
 				<img src={rigoImageUrl} />
@@ -25,8 +30,9 @@ export const Home = () => {
 					Read documentation
 				</a>
 			</p>
-			
+			</div>
+			)}
 		</div>
-		
+
 	);
 };
