@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 export const Navbar = () => {
 	const navigate = useNavigate();
-	const handleclick = () =>{
+	const handleclick = () => {
 		sessionStorage.removeItem("token")
 		navigate("/login")
 	}
@@ -17,17 +17,18 @@ export const Navbar = () => {
 				</Link>
 				<div className="ml-auto">
 					{
-						token && token !== "" && token !== undefined ? (<button className="btn btn-success" onClick={() => handleclick()} > Logout</button>)
-						:(<Link to="/login">
-							<button className="btn btn-success" >  Login</button>
-						</Link>)
+						token && token !== "" && token !== undefined ? ""
+							: (<Link to="/signup">
+								<button className="btn btn-success mx-2" >Sign Up</button>
+							</Link>)
 					}
 
-
-
-
-
-
+					{
+						token && token !== "" && token !== undefined ? (<button className="btn btn-success" onClick={() => handleclick()} > Logout</button>)
+							: (<Link to="/login">
+								<button className="btn btn-success" >  Login</button>
+							</Link>)
+					}
 				</div>
 			</div>
 		</nav>
